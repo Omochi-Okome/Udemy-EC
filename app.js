@@ -18,15 +18,15 @@ const User = require('./models/user');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use((req,res,next) => {
-    User.findByPk(1)
-        .then(user => {
-            req.user = user;
-            next();
-        })
-        .catch(err => console.log(err));
-    next();
-})
+app.use((req, res, next) => {
+    User.findById('65ce10238ebb00a2a09ade51')
+      .then(user => {
+        req.user = new User(user.name, user.email, user.cart, user._id);
+        next();
+      })
+      .catch(err => console.log(err));
+  });
+  
 
 app.use('/admin',adminRoutes);
 app.use(shopRoutes);
